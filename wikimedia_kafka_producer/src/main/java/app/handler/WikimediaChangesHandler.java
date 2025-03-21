@@ -25,10 +25,8 @@ public class WikimediaChangesHandler implements EventHandler {
     }
 
     @Override
-    public void onClosed() throws Exception {
+    public void onClosed() {
         LOGGER.info("Disconnected from Wikimedia Event Stream.");
-        throw new Exception("An error occurred during closing the connection.");
-
     }
 
     @Override
