@@ -27,20 +27,20 @@ public class ProductService {
         return this.productRepo.save(product);
     }
     @Transactional
-    public Product updateProduct(Product product, long id ) {
+    public Product updateProduct(Product product, String id ) {
         LOGGER.info("Updating product with id: {} ", id);
         return this.productRepo.findById(id)
                 .map(existingProduct->{
-                    existingProduct = EntityUpdater.updateEntity(existingProduct, product);
-                    return this.productRepo.save(existingProduct);
+                    Product updatedProd = EntityUpdater.updateEntity(existingProduct, product);
+                    return this.productRepo.save(updatedProd);
                 }).orElseThrow(()->new ResourceNotFoundException("Product not found with id "+id));
     }
-    public Product getProduct(long id) {
+    public Product getProduct(String id) {
         return this.productRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found with id "+id));
     }
 
     @Transactional
-    public void deleteProduct(long id) {
+    public void deleteProduct(String id) {
         LOGGER.info("Deleting product with id {}", id);
         this.productRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found with id "+id));
         this.productRepo.deleteById(id);

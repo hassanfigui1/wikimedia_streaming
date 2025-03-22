@@ -8,8 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("api/v1/elast/products")
+@RestController
 @AllArgsConstructor
 public class ProductController {
 
@@ -21,7 +20,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable String id) {
         return ResponseEntity.ok(this.productService.getProduct(id));
     }
 
@@ -30,13 +29,13 @@ public class ProductController {
         return ResponseEntity.ok(this.productService.insertProduct(product));
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@PathVariable String id, @RequestBody Product product) {
         Product updatedProduct = this.productService.updateProduct(product, id);
         return ResponseEntity.ok(updatedProduct);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable long id) {
+    public ResponseEntity<Product> deleteProduct(@PathVariable String id) {
         try{
             productService.deleteProduct(id);
             return ResponseEntity.noContent().build();

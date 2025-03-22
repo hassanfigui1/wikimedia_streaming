@@ -16,7 +16,7 @@ public class Product {
 
     @Id
     @Field(type = FieldType.Keyword)
-    private Long id;
+    private String id;
     private String name;
     private String description;
     private Double price;
