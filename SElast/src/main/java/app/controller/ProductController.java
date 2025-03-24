@@ -5,14 +5,14 @@ import app.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/products")
 public class ProductController {
 
-    private final ProductService productService;
+    private ProductService productService;
 
     @GetMapping("/findAll")
     public ResponseEntity<Iterable<Product>> findAll() {

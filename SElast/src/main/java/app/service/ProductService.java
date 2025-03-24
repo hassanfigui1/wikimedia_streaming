@@ -5,44 +5,44 @@ import app.repository.ProductRepo;
 import app.service.reflect.EntityUpdater;
 import lombok.AllArgsConstructor;
 import org.apache.kafka.common.errors.ResourceNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 @AllArgsConstructor
 public class ProductService {
 
     private ProductRepo productRepo;
-    private final static Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
+
+    private static final String PRODUCT_NOT_FOUND_MSG = "Product not found with id %s";
 
     public Iterable<Product> getAllProducts() {
-        LOGGER.info("Getting all products");
-        return  this.productRepo.findAll();
+        return this.productRepo.findAll();
     }
+
     public Product insertProduct(Product product) {
-        LOGGER.info("Inserting product {}", product);
         return this.productRepo.save(product);
     }
+
     @Transactional
-    public Product updateProduct(Product product, String id ) {
-        LOGGER.info("Updating product with id: {} ", id);
+    public Product updateProduct(Product product, String id) {
         return this.productRepo.findById(id)
-                .map(existingProduct->{
+                .map(existingProduct -> {
                     Product updatedProd = EntityUpdater.updateEntity(existingProduct, product);
                     return this.productRepo.save(updatedProd);
-                }).orElseThrow(()->new ResourceNotFoundException("Product not found with id "+id));
+                }).orElseThrow(() -> new ResourceNotFoundException(String.format(PRODUCT_NOT_FOUND_MSG, id)));
     }
+
     public Product getProduct(String id) {
-        return this.productRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found with id "+id));
+        return this.productRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(PRODUCT_NOT_FOUND_MSG, id)));
     }
 
     @Transactional
     public void deleteProduct(String id) {
-        LOGGER.info("Deleting product with id {}", id);
-        this.productRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found with id "+id));
-        this.productRepo.deleteById(id);
+        productRepo.findById(id).ifPresentOrElse(product -> {
+            productRepo.deleteById(id);
+        }, () -> {
+            throw new ResourceNotFoundException(String.format(PRODUCT_NOT_FOUND_MSG, id));
+        });
     }
 }
