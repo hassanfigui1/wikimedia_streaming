@@ -1,0 +1,16 @@
+version: '3'
+services:
+  elasticsearch:
+    image: elasticsearch:8.17.4
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9201:9201"
+    container_name: elasticsearch
+    restart: unless-stopped
+
+
+
+# docker-compose up -d
