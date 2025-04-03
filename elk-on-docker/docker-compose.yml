@@ -117,7 +117,10 @@ services:
      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
      - xpack.security.transport.ssl.verification_mode=certificate
      - xpack.license.self_generated.type=${LICENSE}
-   mem_limit: ${ES_MEM_LIMIT}
+   deploy:
+     resources:
+       limits:
+         memory: ${ES_MEM_LIMIT}
    ulimits:
      memlock:
        soft: -1
@@ -162,7 +165,10 @@ services:
      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
      - xpack.security.transport.ssl.verification_mode=certificate
      - xpack.license.self_generated.type=${LICENSE}
-   mem_limit: ${ES_MEM_LIMIT}
+   deploy:
+     resources:
+       limits:
+         memory: ${ES_MEM_LIMIT}
    ulimits:
      memlock:
        soft: -1
@@ -207,7 +213,10 @@ services:
      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
      - xpack.security.transport.ssl.verification_mode=certificate
      - xpack.license.self_generated.type=${LICENSE}
-   mem_limit: ${ES_MEM_LIMIT}
+   deploy:
+     resources:
+       limits:
+         memory: ${ES_MEM_LIMIT}
    ulimits:
      memlock:
        soft: -1
@@ -243,7 +252,10 @@ services:
      - XPACK_SECURITY_ENCRYPTIONKEY=${ENCRYPTION_KEY}
      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${ENCRYPTION_KEY}
      - XPACK_REPORTING_ENCRYPTIONKEY=${ENCRYPTION_KEY}
-   mem_limit: ${KB_MEM_LIMIT}
+   deploy:
+     resources:
+       limits:
+         memory: ${KB_MEM_LIMIT}
    healthcheck:
      test:
        [
@@ -277,4 +289,8 @@ services:
    command: logstash -f /usr/share/logstash/pipeline/logstash.conf
    ports:
      - "5044:5044/udp"
-   mem_limit: ${LS_MEM_LIMIT}
+   deploy:
+     resources:
+       limits:
+         memory: ${LS_MEM_LIMIT}
+
