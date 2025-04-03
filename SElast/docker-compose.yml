@@ -11,6 +11,12 @@ services:
     container_name: elasticsearch
     restart: unless-stopped
 
+  selast:
+    build: .
+    env_file:
+      - .env
+    container_name: selast
+    restart: unless-stopped
 
 
 # docker-compose up -d
