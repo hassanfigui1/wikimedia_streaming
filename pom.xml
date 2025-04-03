@@ -6,6 +6,8 @@
         <module> wikimedia_kafka_producer</module>
         <module> wikimedia_kafka_consumer</module>
         <module>Library/lib-swagger</module>
+        <module>library/lib-swagger</module>
+        <module>library/lib-access</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
